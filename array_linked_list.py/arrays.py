@@ -39,7 +39,7 @@ def array_read(array, index):
 # Insert an element in a given array at a given index
 def array_insert(array, element, index):
     # Throw an error if array is out of the current count
-    if index >> array.count:
+    if index > array.count:
         print("Error, out of bounds in array_insert.")
         return None
 

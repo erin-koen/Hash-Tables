@@ -16,7 +16,7 @@ class Pair:
 class BasicHashTable:
     def __init__(self, capacity):
         self.capacity = capacity
-        self.count = 0 # not sure we'll need this
+        self.count = 0 
         self.elements = [None] * capacity 
 
 
@@ -41,8 +41,23 @@ def hash(string, max):
 # '''
 def hash_table_insert(hash_table, key, value):
     # hash the key
+    hashed_key = hash(key, hash_table.capacity)
     # check capacity vs count and resize array if needed
+    if hash_table.capacity == hash_table.count:
+        # create new buckets
+        new_capacity = hash_table.capacity*2
+        new_elements = [None] * new_capacity
+
+        # copy over elements
+        for i in range(hash_table.count):
+            new_elements[i] = hash_table.elements[i]
+
+        # set hash_table properties to new properties
+        hash_table.elements = new_elements
+        hash_table.capacity = new_capacity
+
     # insert the value at hash_table[hashed_key], handle errors
+    
     # increment count
     pass
 
@@ -54,7 +69,9 @@ def hash_table_insert(hash_table, key, value):
 # '''
 def hash_table_remove(hash_table, key):
     # hash the key
-    # remove the value at hash_table[hashed_key], handle errors
+    # remove the value at hash_table[hashed_key]
+    # handle errors
+    # decremement count
     pass
 
 
