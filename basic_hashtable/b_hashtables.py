@@ -42,10 +42,11 @@ def hash(string, max_index):
 def hash_table_insert(hash_table, key, value):
     # hash the key
     hashed_key = hash(key, hash_table.capacity)
+    # create the pair to store
     new_elem = Pair(key,value)
 
     # check if key already exists and handle errors
-    if hash_table.storage[hashed_key]:
+    if hash_table.storage[hashed_key] is not None:
         print('Error, there is already a value at index {hashed_key}')
         return None
     
@@ -67,7 +68,7 @@ def hash_table_remove(hash_table, key):
     hashed_key = hash(key, hash_table.capacity)
     
     # handle error
-    if not hash_table.storage[hashed_key]:
+    if hash_table.storage[hashed_key] is None:
         print(f'There is no value to delete at index {hashed_key}')
         return None
 
