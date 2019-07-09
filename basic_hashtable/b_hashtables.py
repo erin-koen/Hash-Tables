@@ -42,6 +42,7 @@ def hash(string, max_index):
 def hash_table_insert(hash_table, key, value):
     # hash the key
     hashed_key = hash(key, hash_table.capacity)
+    new_elem = Pair(key,value)
 
     # check if key already exists and handle errors
     if hash_table.storage[hashed_key]:
@@ -49,7 +50,7 @@ def hash_table_insert(hash_table, key, value):
         return None
     
     # insert the value at hash_table[hashed_key], 
-    hash_table.storage[hashed_key] = value
+    hash_table.storage[hashed_key] = new_elem
     
 
 
@@ -82,13 +83,10 @@ def hash_table_remove(hash_table, key):
 # Should return None if the key is not found.
 # '''
 def hash_table_retrieve(hash_table, key):
+    hashed_key = hash(key, hash_table.capacity)
+    element = hash_table.storage[hashed_key]
 
-    if hash_table.storage[hash(key, hash_table.capacity)] is None: 
-        print(f'That key was not found.')
-
-    else:
-        return hash_table.storage[hash(key, hash_table.capacity)]
-
+    return element.value if element is not None else None
 
 def Testing():
     ht = BasicHashTable(16)
