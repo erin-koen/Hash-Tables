@@ -16,8 +16,7 @@ class Pair:
 class BasicHashTable:
     def __init__(self, capacity):
         self.capacity = capacity
-        self.count = 0 # only needed if we resize the table
-        self.storage = [None] * capacity 
+        self.storage = [None] * capacity
 
 
 
@@ -28,8 +27,8 @@ class BasicHashTable:
 def hash(string, max_index):
     # take a string, run it through hash function, return an integer between 0 (inclusive) and max (exclusive). Max will be passed as BasicHashTable.capacity
     djb2 = 5381
-    for c in string:
-        djb2 = (hash*33)+ ord(c)
+    for char in string:
+        djb2 = (djb2*33)+ ord(char)
 
     return djb2 % max_index # will provide the index in which to place a new value, delete or edit an existing one
 
@@ -44,30 +43,15 @@ def hash_table_insert(hash_table, key, value):
     # hash the key
     hashed_key = hash(key, hash_table.capacity)
 
-    # check capacity vs count and resize array if needed << Not sure we need this?
-    # if hash_table.capacity == hash_table.count:
-    #     # create new buckets
-    #     new_capacity = hash_table.capacity*2
-    #     new_elements = [None] * new_capacity
-
-    #     # copy over elements
-    #     for i in range(hash_table.count):
-    #         new_elements[i] = hash_table.elements[i]
-
-    #     # set hash_table properties to new properties
-    #     hash_table.elements = new_elements
-    #     hash_table.capacity = new_capacity
-
     # check if key already exists and handle errors
-    if hash_table[hashed_key]:
+    if hash_table.storage[hashed_key]:
         print('Error, there is already a value at index {hashed_key}')
         return None
     
     # insert the value at hash_table[hashed_key], 
-    hash_table[hashed_key] = value
+    hash_table.storage[hashed_key] = value
     
-    # increment count
-    hash_table.count +=1
+
 
 
 
@@ -82,15 +66,13 @@ def hash_table_remove(hash_table, key):
     hashed_key = hash(key, hash_table.capacity)
     
     # handle error
-    if not hash_table[hashed_key]:
+    if not hash_table.storage[hashed_key]:
         print(f'There is no value to delete at index {hashed_key}')
         return None
 
     # remove the value at hash_table[hashed_key]
-    hash_table[hashed_key] = None
-    
-    # decremement count
-    hash_table.count -= 1
+    hash_table.storage[hashed_key] = None
+
     
 
 
@@ -101,11 +83,11 @@ def hash_table_remove(hash_table, key):
 # '''
 def hash_table_retrieve(hash_table, key):
 
-    if hash_table[hash(key, hash_table.capacity)] is None: 
-        print("WARNING, ")
+    if hash_table.storage[hash(key, hash_table.capacity)] is None: 
+        print(f'That key was not found.')
 
-    # hash key - if hash_table[hashed_key], return value stored there. Else return None.
-    pass
+    else:
+        return hash_table.storage[hash(key, hash_table.capacity)]
 
 
 def Testing():
