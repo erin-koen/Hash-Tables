@@ -1,4 +1,8 @@
-# takes a value, runs a hashing operation on it, 
+
+from doubly_linked_list import (
+    ListNode,
+    DoublyLinkedList
+)
 
 # '''
 # Basic hash table key/value pair
@@ -9,24 +13,19 @@ class Pair:
         self.value = value
 
 
-# '''
-# Basic hash table
-# Fill this in.  All storage values should be initialized to None
-# '''
+# initialize HT with storage set to a list of DLLs
 class BasicHashTable:
     def __init__(self, capacity):
         self.capacity = capacity
-        self.storage = [None] * capacity
+        self.storage = [DoublyLinkedList()] * capacity
 
 
 
-# '''
-# Fill this in.
-# Research and implement the djb2 hash function
-# '''
+# Hash function unchanged
 def hash(string, max_index):
     # take a string, run it through hash function, return an integer between 0 (inclusive) and max (exclusive). Max will be passed as BasicHashTable.capacity
     djb2 = 5381
+    
     for char in string:
         djb2 = (djb2*33)+ ord(char)
 
@@ -34,47 +33,39 @@ def hash(string, max_index):
 
 
 
-# '''
-# Fill this in.
 
-# If you are overwriting a value with a different key, print a warning.
-# '''
 def hash_table_insert(hash_table, key, value):
-    # hash the key
-    hashed_key = hash(key, hash_table.capacity)
-    # create the pair to store
-    new_elem = Pair(key,value)
+    # create a Pair
+    element = Pair(key, value)
 
-    # check if key already exists and handle errors
-    if hash_table.storage[hashed_key] is not None:
-        print('Error, there is already a value at index {hashed_key}')
-        return None
-    
-    # insert the value at hash_table[hashed_key], 
-    hash_table.storage[hashed_key] = new_elem
-    
+    # hash the key of the element to find which index to put it in
+    idx = hash(element.key, hash_table.capacity)
+
+    # check the DLL at the index to see if there's anything in it, add the element to the head if not, and to the tail if so.
+    if hash_table.storage[idx].length == 0:
+        hash_table.storage[idx].add_to_head(element)
+    else: 
+        hash_table.storage[idx].add_to_tail(element)
 
 
 
 
 
-# '''
-# Fill this in.
 
-# If you try to remove a value that isn't there, print a warning.
-# '''
+
 def hash_table_remove(hash_table, key):
-    # hash the key
-    hashed_key = hash(key, hash_table.capacity)
     
-    # handle error
-    if hash_table.storage[hashed_key] is None:
-        print(f'There is no value to delete at index {hashed_key}')
+    # hash the key
+    idx = hash(key, hash_table.capacity)
+
+    # check if there's anything in the list at that index
+    if hash_table.storage[idx].length == 0:
+        print(f'There is no value to delete at index {idx}')
         return None
 
-    # remove the value at hash_table[hashed_key]
-    hash_table.storage[hashed_key] = None
 
+
+    
     
 
 
