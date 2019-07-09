@@ -17,14 +17,20 @@ class LinkedPair:
 # '''
 class HashTable:
     def __init__(self, capacity):
-        pass
+        self.capacity = capacity
+        self.storage = [] * capacity
 
 
 # '''
 # Research and implement the djb2 hash function
 # '''
-def hash(string, max):
-    pass
+def hash(string, max_index):
+    # take a string, run it through hash function, return an integer between 0 (inclusive) and max (exclusive). Max will be passed as BasicHashTable.capacity
+    djb2 = 5381
+    for char in string:
+        djb2 = (djb2*33)+ ord(char)
+
+    return djb2 % max_index # will provide the index in which to place a new value, delete or edit an existing one
 
 
 # '''
@@ -33,7 +39,23 @@ def hash(string, max):
 # Hint: Used the LL to handle collisions
 # '''
 def hash_table_insert(hash_table, key, value):
-    pass
+    # create a linkedPair
+    element = LinkedPair(key,value)
+
+    # hash the key to find the index
+    idx = hash(key, hash_table.capacity)
+
+    # check storage at index to see if there's a collision
+    if hash_table.storage[idx] is None:
+        hash_table.storage[idx] =  element
+        return
+    
+    else:
+        for e in hash_table.storage:
+            if e.next is None:
+                e.next = element
+                return
+
 
 
 # '''
@@ -73,7 +95,7 @@ def Testing():
     print(hash_table_retrieve(ht, "line_3"))
 
     old_capacity = len(ht.storage)
-    ht = hash_table_resize(ht)
+    # ht = hash_table_resize(ht)
     new_capacity = len(ht.storage)
 
     print("Resized hash table from " + str(old_capacity)
