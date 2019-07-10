@@ -33,24 +33,23 @@ def hash_table_insert(hash_table, key, value):
     # hash the key to find the index
     idx = hash(key, hash_table.capacity)
     # check storage at index to see if there's a collision, and just insert the elemnt if the index is empty
-    if hash_table.storage[idx] is None or hash_table.storage[idx].key is key:
+    if hash_table.storage[idx] is None:
         hash_table.storage[idx] = element
         return
-    # traverse the LL, if you find the key already exists, overwrite the value. If it doesn't exist, add it to the end.
-    # prev_node = hash_table.storage[idx]
-    curr_node = hash_table.storage[idx].next
-
-    while curr_node is not None:
-        if curr_node.key is key:
-            element.next = curr_node.next
-            curr_node = element
-            return
-        if curr_node.next is None:
-            curr_node.next = element
-            print('DFJKLSFJDSKL', element.value)
-        curr_node = curr_node.next 
     
-   
+    else: 
+        curr_node = hash_table.storage[idx]
+        if curr_node.key is key:
+            curr_node.value = value
+            return
+        else:
+            while curr_node.next is not None:
+                curr_node = curr_node.next
+                if curr_node.key is key:
+                    curr_node.value = value
+                    return
+            curr_node.next = element
+    
 
 
 def hash_table_remove(hash_table, key):
